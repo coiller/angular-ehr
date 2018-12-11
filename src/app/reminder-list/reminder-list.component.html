@@ -1,0 +1,94 @@
+<div [hidden]="!hidden" class="loader"></div>
+<div [hidden]="hidden">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Reminder</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Settings</a></li>
+					<li><a href="#">Profile</a></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#">Overview <span
+							class="sr-only">(current)</span></a></li>
+					<li><a href="#">Reports</a></li>
+					<li><a href="#">Analytics</a></li>
+					<li><a href="#">Export</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="">Nav item</a></li>
+					<li><a href="">Nav item again</a></li>
+					<li><a href="">One more nav</a></li>
+					<li><a href="">Another nav item</a></li>
+					<li><a href="">More navigation</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="">Nav item again</a></li>
+					<li><a href="">One more nav</a></li>
+					<li><a href="">Another nav item</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<br> <br>
+				<h1 class="page-header">Dashboard</h1>
+				<canvas [hidden]="!chart" class="my-4 w-100" id="myChart"
+					width="900" height="380"></canvas>
+				<div class="reminder-list-header">
+					<mat-form-field> <input matInput
+						(keyup)="applyFilter($event.target.value)" placeholder="Filter">
+					</mat-form-field>
+				</div>
+
+				<div class="reminder-list-container mat-elevation-z8">
+					<mat-table [dataSource]="dataSource" matSort> <!-- Name Column -->
+					<ng-container matColumnDef="name"> <mat-header-cell
+						*matHeaderCellDef mat-sort-header>Patient Name</mat-header-cell> <mat-cell
+						*matCellDef="let row" (click)="showChart(row)">{{row.patient.name}}</mat-cell>
+					</ng-container> <!-- Unfinished_high Column --> <ng-container
+						matColumnDef="unfinished_high"> <mat-header-cell
+						*matHeaderCellDef mat-sort-header>High Priority
+					Reminder</mat-header-cell> <mat-cell *matCellDef="let row">{{row.unfinished_high}}</mat-cell>
+					</ng-container> <!-- Unfinished_middle Column --> <ng-container
+						matColumnDef="unfinished_middle"> <mat-header-cell
+						*matHeaderCellDef mat-sort-header>Middle
+					Priority Reminder</mat-header-cell> <mat-cell *matCellDef="let row">{{row.unfinished_middle}}</mat-cell>
+					</ng-container> <!-- Unfinished_low Column --> <ng-container
+						matColumnDef="unfinished_low"> <mat-header-cell
+						*matHeaderCellDef mat-sort-header>Low Priority
+					Reminder</mat-header-cell> <mat-cell *matCellDef="let row">{{row.unfinished_low}}</mat-cell>
+					</ng-container> <!-- New_reminder Column --> <ng-container
+						matColumnDef="new_reminder"> <mat-header-cell
+						*matHeaderCellDef>New Reminder</mat-header-cell> <mat-cell
+						*matCellDef="let row" (click)="addAlert(row)"> <mat-icon svgIcon="add-alert"></mat-icon></mat-cell>
+					</ng-container> <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: displayedColumns;"
+						[ngClass]="{'highlight': selectedRowIndex == row.id}"> </mat-row>
+					</mat-table>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

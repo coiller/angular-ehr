@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {AppService} from './app.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  constructor(private router: Router) {
+  }
 }
