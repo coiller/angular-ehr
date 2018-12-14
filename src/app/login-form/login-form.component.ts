@@ -1,7 +1,7 @@
 import {Doctor} from '../models/doctor';
 import {AppService} from '../app.service';
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -10,12 +10,20 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 })
 export class LoginFormComponent implements OnInit {
   error: string;
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
-  doctor = new Doctor('Please input username', '******');
+
+  doctor = new Doctor(null, null);
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: AppService) {
+  }
+
   onSubmit() {
-    localStorage.setItem('key', btoa(this.doctor.username + ':' + this.doctor.password));
+    // localStorage.setItem('key', btoa(this.doctor.username + ':' + this.doctor.password));
+    this.service.login(this.doctor).subscribe(response => {
+      localStorage.setItem('Bearer', response['token']);
+    });
     this.router.navigate(['/reminder_list']);
   }
+
   ngOnInit() {
     // subscribe to router event
     this.activatedRoute.queryParams.subscribe(params => {

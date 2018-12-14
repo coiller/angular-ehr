@@ -1,11 +1,13 @@
 import {AppService} from '../app.service';
 import {Pair} from '../models/pair';
 import {report} from '../models/report';
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource, MatIconRegistry} from '@angular/material';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatIconRegistry, MatSort, MatTableDataSource} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Router} from '@angular/router';
+
 declare var Chart: any;
+
 @Component({
   selector: 'app-reminder-list',
   templateUrl: './reminder-list.component.html',
@@ -18,8 +20,9 @@ export class ReminderListComponent implements OnInit {
   private hidden = true;
   private chart = false;
   @ViewChild(MatSort) sort: MatSort;
+
   constructor(private service: AppService, private router: Router,
-    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+              iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'add-alert',
       sanitizer.bypassSecurityTrustResourceUrl('./assets/add-alert.svg'));
@@ -31,10 +34,10 @@ export class ReminderListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  addAlert(row){
-    
+  addAlert(row) {
+
   }
-  
+
   showChart(row) {
     var ctx = document.getElementById('myChart');
     let data = JSON.stringify({'pair_id': row.pair_id});
@@ -66,7 +69,7 @@ export class ReminderListComponent implements OnInit {
         }
       });
     }, error => {
-      if (localStorage.getItem('key') === null) {
+      if (localStorage.getItem('Bearer') === null) {
         // didn't login
         this.router.navigate(['/login'], {queryParams: {error: 'Please login first'}});
       } else {
@@ -75,6 +78,7 @@ export class ReminderListComponent implements OnInit {
       }
     }, () => this.chart = false);
   }
+
   ngOnInit() {
     this.service.getReminderList().subscribe(response => {
       this.dataSource = new MatTableDataSource(response as Pair[]);
@@ -89,7 +93,7 @@ export class ReminderListComponent implements OnInit {
         return dataStr.indexOf(transformedFilter) !== -1;
       };
     }, error => {
-      if (localStorage.getItem('key') === null) {
+      if (localStorage.getItem('Bearer') === null) {
         // didn't login
         this.router.navigate(['/login'], {queryParams: {error: 'Please login first'}});
       } else {
