@@ -38,6 +38,12 @@ export class ReminderListComponent implements OnInit {
 
   }
 
+  logout() {
+    localStorage.clear();
+    this.service.logout();
+    this.router.navigate(['/login']);
+  }
+
   showChart(row) {
     var ctx = document.getElementById('myChart');
     let data = JSON.stringify({'pair_id': row.pair_id});

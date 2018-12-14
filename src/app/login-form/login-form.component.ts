@@ -20,14 +20,19 @@ export class LoginFormComponent implements OnInit {
     // localStorage.setItem('key', btoa(this.doctor.username + ':' + this.doctor.password));
     this.service.login(this.doctor).subscribe(response => {
       localStorage.setItem('Bearer', response['token']);
+      this.router.navigate(['/reminder_list']);
+    }, error => {
+      this.error = error.error.message;
     });
-    this.router.navigate(['/reminder_list']);
   }
 
   ngOnInit() {
     // subscribe to router event
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.error = params.error;
-    });
+    // this.activatedRoute.queryParams.subscribe(params => {
+    //   this.error = params.error;
+    // });
+    if (localStorage.getItem('Bearer')) {
+      this.router.navigate(['/reminder_list']);
+    }
   }
 }

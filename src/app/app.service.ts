@@ -32,6 +32,10 @@ export class AppService {
     return this.http.post('http://localhost:8080/api/login', user);
   }
 
+  logout() {
+    this.http.post('http://localhost:8080/api/logout', null);
+  }
+
   newReminder(data) {
     return this.http.post(this.url + 'reminder', data, {
       headers:
